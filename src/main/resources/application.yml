@@ -1,0 +1,14 @@
+server:
+  port: ${PORT:8080}
+  tomcat:
+    threads:
+      max: 4
+spring:
+  application:
+    name: medicalrecordsmgmt
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/medicalrecords?useUnicode=yes&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PSW:123123}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
