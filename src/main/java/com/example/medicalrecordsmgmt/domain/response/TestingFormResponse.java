@@ -1,5 +1,6 @@
 package com.example.medicalrecordsmgmt.domain.response;
 
+import com.example.medicalrecordsmgmt.domain.entity.MedicalRecord;
 import lombok.Data;
 
 import java.sql.Date;
@@ -10,5 +11,5 @@ public class TestingFormResponse {
     private String testName;
     private Date testDate;
     private Byte result;
-    private int recordId;
+    private RecordResponse recordResponse;
 }

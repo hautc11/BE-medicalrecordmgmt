@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -26,7 +23,9 @@ public class TestingForm {
 
     private Byte result;
 
-    private int recordId;
+    @ManyToOne
+    @JoinColumn(name = "recordId")
+    private MedicalRecord medicalRecord;
 
     @Column(columnDefinition="TIMESTAMP NOT NULL DEFAULT NOW()", updatable = false, insertable = false)
     private Timestamp createdAt;

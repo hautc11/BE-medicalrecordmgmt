@@ -19,11 +19,16 @@ public class TestingFormResponseAsPage {
     public static TestingFormResponseAsPage of(Page<TestingForm> testingFormPage){
         var items = testingFormPage.stream()
                 .map(testingForm -> {
+                    var medicalResponse = new RecordResponse();
+                    medicalResponse.setId(testingForm.getMedicalRecord().getId());
+                    medicalResponse.setFullName(testingForm.getMedicalRecord().getFullName());
+
                     var response = new TestingFormResponse();
                     response.setId(testingForm.getId());
                     response.setTestName(testingForm.getTestName());
                     response.setTestDate(testingForm.getTestDate());
-                    response.setRecordId(testingForm.getRecordId());
+                    response.setRecordResponse(medicalResponse);
+                    response.setResult(testingForm.getResult());
                     return response;
                 })
                 .collect(Collectors.toList());

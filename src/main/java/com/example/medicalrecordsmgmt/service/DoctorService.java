@@ -66,7 +66,8 @@ public class DoctorService {
                         doctor.setDepartment(department);
                     }
                     doctorRepository.save(doctor);
-                },() -> {throw new BadRequestException(ErrorCode.INVALID_DOCTOR_ID);});
+                },() -> {throw new BadRequestException(ErrorCode.INVALID_DOCTOR_ID);}
+                );
     }
 
     public void deleteDoctor(int id) {

@@ -1,6 +1,5 @@
 package com.example.medicalrecordsmgmt.controller;
 
-
 import com.example.medicalrecordsmgmt.domain.request.RecordCreateRequest;
 import com.example.medicalrecordsmgmt.domain.request.RecordUpdateRequest;
 import com.example.medicalrecordsmgmt.domain.response.RecordResponse;
@@ -8,6 +7,7 @@ import com.example.medicalrecordsmgmt.domain.response.RecordResponseAsPage;
 import com.example.medicalrecordsmgmt.service.RecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +21,10 @@ public class RecordController {
 
     @GetMapping("/medicalrecords")
     public RecordResponseAsPage getAll(
+            @RequestParam(value = "name",required = false) String fullName,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
-        return recordService.getAll(page,size);
+            @RequestParam(defaultValue = "9") int size){
+        return recordService.getAll(page,size,fullName);
     }
 
     @PostMapping("/medicalrecords")

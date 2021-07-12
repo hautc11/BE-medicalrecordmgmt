@@ -32,10 +32,15 @@ public class RecordService {
                 }).orElseGet(() -> new RecordResponse());
     }
 
-    public RecordResponseAsPage getAll(int page, int size) {
+    public RecordResponseAsPage getAll(int page, int size, String fullName) {
         var pageable = PageRequest.of(page, size);
-        var medicalRecordPage = recordRepository.findAll(pageable);
-        return RecordResponseAsPage.of(medicalRecordPage);
+        if (fullName==null){
+            var medicalRecordPage = recordRepository.findAll(pageable);
+            return RecordResponseAsPage.of(medicalRecordPage);
+        }else{
+            var medicalRecordPage = recordRepository.findByFullNameContaining(fullName, pageable);
+            return RecordResponseAsPage.of(medicalRecordPage);
+        }
     }
 
     public void createMedicalRecord(RecordCreateRequest request) {

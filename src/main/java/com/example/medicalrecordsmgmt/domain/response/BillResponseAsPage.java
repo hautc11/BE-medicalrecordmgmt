@@ -18,10 +18,15 @@ public class BillResponseAsPage {
     public static BillResponseAsPage of(Page<MedicalBill> medicalBillPage){
         var items = medicalBillPage.stream()
                 .map(medicalBill -> {
+                    var medicalResponse = new RecordResponse();
+                    medicalResponse.setId(medicalBill.getMedicalRecord().getId());
+                    medicalResponse.setFullName(medicalBill.getMedicalRecord().getFullName());
+
                     var response = new BillResponse();
                     response.setId(medicalBill.getId());
                     response.setTotal(medicalBill.getTotal());
-                    response.setRecordId(medicalBill.getRecordId());
+                    response.setCreateAt(medicalBill.getCreatedAt());
+                    response.setRecordResponse(medicalResponse);
                     return response;
                 })
                 .collect(Collectors.toList());
