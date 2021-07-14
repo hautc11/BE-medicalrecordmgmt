@@ -20,7 +20,6 @@ public class AppUserController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request) {
-        return appUserService.login(request);
+    public LoginResponse login(@RequestBody LoginRequest request) { return appUserService.login(request);
     }
 }

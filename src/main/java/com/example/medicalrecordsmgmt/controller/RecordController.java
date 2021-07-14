@@ -21,10 +21,10 @@ public class RecordController {
 
     @GetMapping("/medicalrecords")
     public RecordResponseAsPage getAll(
-            @RequestParam(value = "name",required = false) String fullName,
+            @RequestParam(defaultValue="") String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "9") int size){
-        return recordService.getAll(page,size,fullName);
+        return recordService.getAll(page,size, search);
     }
 
     @PostMapping("/medicalrecords")

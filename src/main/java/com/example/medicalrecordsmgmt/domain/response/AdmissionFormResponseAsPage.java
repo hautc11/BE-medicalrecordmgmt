@@ -2,6 +2,7 @@ package com.example.medicalrecordsmgmt.domain.response;
 
 import com.example.medicalrecordsmgmt.domain.entity.AdmissionForm;
 import com.example.medicalrecordsmgmt.domain.entity.Department;
+import com.example.medicalrecordsmgmt.domain.entity.MedicalRecord;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 
@@ -19,10 +20,15 @@ public class AdmissionFormResponseAsPage {
     public static AdmissionFormResponseAsPage of(Page<AdmissionForm> admissionFormPage){
         var items = admissionFormPage.stream()
                 .map(admissionForm -> {
+                    var medicalResponse = new RecordResponse();
+                    medicalResponse.setId(admissionForm.getMedicalRecord().getId());
+                    medicalResponse.setFullName(admissionForm.getMedicalRecord().getFullName());
+
                     var response = new AdmissionFormResponse();
                     response.setId(admissionForm.getId());
                     response.setDateIn(admissionForm.getDateIn());
                     response.setDateOut(admissionForm.getDateOut());
+                    response.setRecordResponse(medicalResponse);
                     return response;
                 })
                 .collect(Collectors.toList());

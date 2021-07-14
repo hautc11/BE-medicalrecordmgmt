@@ -5,26 +5,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "admissionform")
+@Table(name = "checkupform")
 @Getter
 @Setter
 @NoArgsConstructor
-public class AdmissionForm {
+public class CheckUpForm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Date dateIn;
-
-    private Date dateOut;
+    private String symptom;
 
     @ManyToOne
     @JoinColumn(name = "recordId")
     private MedicalRecord medicalRecord;
+
+    @ManyToOne
+    @JoinColumn(name = "doctorId")
+    private Doctor doctor;
 
     @Column(columnDefinition="TIMESTAMP NOT NULL DEFAULT NOW()", updatable = false, insertable = false)
     private Timestamp createdAt;

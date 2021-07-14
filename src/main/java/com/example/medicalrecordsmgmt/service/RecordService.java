@@ -9,6 +9,7 @@ import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -32,13 +33,13 @@ public class RecordService {
                 }).orElseGet(() -> new RecordResponse());
     }
 
-    public RecordResponseAsPage getAll(int page, int size, String fullName) {
+    public RecordResponseAsPage getAll(int page, int size, String search) {
         var pageable = PageRequest.of(page, size);
-        if (fullName==null){
-            var medicalRecordPage = recordRepository.findAll(pageable);
+        if (StringUtils.hasText(search)){
+            var medicalRecordPage = recordRepository.searchMedicalRecord(search, pageable);
             return RecordResponseAsPage.of(medicalRecordPage);
         }else{
-            var medicalRecordPage = recordRepository.findByFullNameContaining(fullName, pageable);
+            var medicalRecordPage = recordRepository.findAll(pageable);
             return RecordResponseAsPage.of(medicalRecordPage);
         }
     }

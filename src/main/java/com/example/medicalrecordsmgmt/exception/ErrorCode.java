@@ -10,8 +10,8 @@ public enum ErrorCode {
     INVALID_DOCTOR_ID("The doctor ID is not valid!"),
     EXISTED_ACCOUNT("This account already existed!"),
     INVALID_EMAIL_PASSWORD("Invalid email or password!"),
-    SERVER_ERROR("Internal Server Error!");
-
+    SERVER_ERROR("Internal Server Error!"),
+    INVALID_MEDICAL_RECORD_ID("The medical record id is not valid");
     private final String message;
 
     public String getCode() {
