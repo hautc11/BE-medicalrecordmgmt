@@ -20,9 +20,10 @@ public class BillController {
 
     @GetMapping("/medicalbills")
     public BillResponseAsPage getAll(
+            @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
-        return billService.getAll(page,size);
+            @RequestParam(defaultValue = "9") int size){
+        return billService.getAll(page,size,search);
     }
 
     @PostMapping("/medicalbills")

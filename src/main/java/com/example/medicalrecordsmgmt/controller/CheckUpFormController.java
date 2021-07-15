@@ -21,9 +21,10 @@ public class CheckUpFormController {
 
     @GetMapping("/checkupforms")
     public CheckUpFormResponseAsPage getAll(
+            @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size){
-        return checkUpFormService.getAll(page,size);
+        return checkUpFormService.getAll(page, size, search);
     }
 
     @PostMapping("/checkupforms")

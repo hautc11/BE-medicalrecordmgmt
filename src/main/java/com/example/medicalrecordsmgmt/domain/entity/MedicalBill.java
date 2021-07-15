@@ -18,6 +18,7 @@ public class MedicalBill {
 
     private double total;
 
+    private String service;
     @ManyToOne
     @JoinColumn(name = "recordId")
     private MedicalRecord medicalRecord;

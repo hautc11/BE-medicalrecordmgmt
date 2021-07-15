@@ -15,6 +15,7 @@ import com.example.medicalrecordsmgmt.repository.TestingFormRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class TestingFormService {
                     var medicalRecord = new RecordResponse();
                     medicalRecord.setId(testingForm.getMedicalRecord().getId());
                     medicalRecord.setFullName(testingForm.getMedicalRecord().getFullName());
+                    medicalRecord.setPhoneNumber(testingForm.getMedicalRecord().getPhoneNumber());
 
                     var response = new TestingFormResponse();
                     response.setId(testingForm.getId());
@@ -40,8 +42,12 @@ public class TestingFormService {
                 }).orElseGet(() -> new TestingFormResponse());
     }
 
-    public TestingFormResponseAsPage getAll(int page, int size) {
+    public TestingFormResponseAsPage getAll(int page, int size,String search) {
         var pageable = PageRequest.of(page,size);
+        if (StringUtils.hasText(search)){
+            var testingFormPage = testingFormRepository.searchTestingForm(search,pageable);
+            return TestingFormResponseAsPage.of(testingFormPage);
+        }
         var testingFormPage = testingFormRepository.findAll(pageable);
         return TestingFormResponseAsPage.of(testingFormPage);
     }

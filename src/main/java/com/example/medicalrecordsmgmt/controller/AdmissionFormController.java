@@ -24,9 +24,10 @@ public class AdmissionFormController {
 
     @GetMapping("/admissionforms")
     public AdmissionFormResponseAsPage getAll(
+            @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size){
-        return admissionFormService.getAll(page, size);
+        return admissionFormService.getAll(page, size, search);
     }
 
     @PostMapping("/admissionforms")

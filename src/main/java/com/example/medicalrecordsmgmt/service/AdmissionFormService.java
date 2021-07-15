@@ -14,6 +14,7 @@ import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class AdmissionFormService {
                     var medicalRecord = new RecordResponse();
                     medicalRecord.setId(admissionForm.getMedicalRecord().getId());
                     medicalRecord.setFullName(admissionForm.getMedicalRecord().getFullName());
+                    medicalRecord.setPhoneNumber(admissionForm.getMedicalRecord().getPhoneNumber());
 
                     var response = new AdmissionFormResponse();
                     response.setId(admissionForm.getId());
@@ -38,8 +40,12 @@ public class AdmissionFormService {
                 .orElseGet(() -> new AdmissionFormResponse());
     }
 
-    public AdmissionFormResponseAsPage getAll(int page, int size) {
+    public AdmissionFormResponseAsPage getAll(int page, int size, String search) {
         var pageable = PageRequest.of(page, size);
+        if (StringUtils.hasText(search)){
+            var admissionFormPage = admissionFormRepository.searchAdmissionForm(search,pageable);
+            return AdmissionFormResponseAsPage.of(admissionFormPage);
+        }
         var admissionFormPage = admissionFormRepository.findAll(pageable);
         return AdmissionFormResponseAsPage.of(admissionFormPage);
     }

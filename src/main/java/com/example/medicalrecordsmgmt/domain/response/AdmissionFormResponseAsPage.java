@@ -23,6 +23,7 @@ public class AdmissionFormResponseAsPage {
                     var medicalResponse = new RecordResponse();
                     medicalResponse.setId(admissionForm.getMedicalRecord().getId());
                     medicalResponse.setFullName(admissionForm.getMedicalRecord().getFullName());
+                    medicalResponse.setPhoneNumber(admissionForm.getMedicalRecord().getPhoneNumber());
 
                     var response = new AdmissionFormResponse();
                     response.setId(admissionForm.getId());

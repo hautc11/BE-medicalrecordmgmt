@@ -22,6 +22,7 @@ public class TestingFormResponseAsPage {
                     var medicalResponse = new RecordResponse();
                     medicalResponse.setId(testingForm.getMedicalRecord().getId());
                     medicalResponse.setFullName(testingForm.getMedicalRecord().getFullName());
+                    medicalResponse.setPhoneNumber(testingForm.getMedicalRecord().getPhoneNumber());
 
                     var response = new TestingFormResponse();
                     response.setId(testingForm.getId());

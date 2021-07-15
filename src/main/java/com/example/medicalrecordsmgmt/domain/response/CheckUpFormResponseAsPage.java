@@ -21,6 +21,7 @@ public class CheckUpFormResponseAsPage {
                     var medicalRecord = new RecordResponse();
                     medicalRecord.setFullName(checkUpForm.getMedicalRecord().getFullName());
                     medicalRecord.setId(checkUpForm.getMedicalRecord().getId());
+                    medicalRecord.setPhoneNumber(checkUpForm.getMedicalRecord().getPhoneNumber());
 
                     var doctor = new DoctorResponse();
                     doctor.setId(checkUpForm.getDoctor().getId());

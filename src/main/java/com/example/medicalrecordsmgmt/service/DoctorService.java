@@ -13,6 +13,7 @@ import com.example.medicalrecordsmgmt.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +37,12 @@ public class DoctorService {
                 }).orElseGet(() -> new DoctorResponse());
     }
 
-    public DoctorResponseAsPage getAll(int page, int size) {
+    public DoctorResponseAsPage getAll(int page, int size, String search) {
         var pageable = PageRequest.of(page,size);
+        if (StringUtils.hasText(search)){
+            var doctorPage = doctorRepository.searchDoctor(search,pageable);
+            return DoctorResponseAsPage.of(doctorPage);
+        }
         var doctorPage = doctorRepository.findAll(pageable);
         return DoctorResponseAsPage.of(doctorPage);
     }

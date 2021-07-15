@@ -13,6 +13,7 @@ import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -26,18 +27,24 @@ public class BillService {
                     var medicalRecord = new RecordResponse();
                     medicalRecord.setId(medicalBill.getMedicalRecord().getId());
                     medicalRecord.setFullName(medicalBill.getMedicalRecord().getFullName());
+                    medicalRecord.setPhoneNumber(medicalBill.getMedicalRecord().getPhoneNumber());
 
                     var response = new BillResponse();
                     response.setId(medicalBill.getId());
                     response.setTotal(medicalBill.getTotal());
                     response.setCreateAt(medicalBill.getCreatedAt());
+                    response.setService(medicalBill.getService());
                     response.setRecordResponse(medicalRecord);
                     return response;
                 }).orElseGet(() -> new BillResponse());
     }
 
-    public BillResponseAsPage getAll(int page, int size) {
+    public BillResponseAsPage getAll(int page, int size,String search) {
         var pageable = PageRequest.of(page,size);
+        if (StringUtils.hasText(search)){
+            var medicalBill = billRepository.searchBill(search,pageable);
+            return BillResponseAsPage.of(medicalBill);
+        }
         var medicalBill = billRepository.findAll(pageable);
         return BillResponseAsPage.of(medicalBill);
     }
@@ -53,6 +60,7 @@ public class BillService {
                 .orElseThrow(()-> new BadRequestException(ErrorCode.INVALID_ID));
         var medicalBill = new MedicalBill();
         medicalBill.setTotal(request.getTotal());
+        medicalBill.setService(request.getService());
         medicalBill.setMedicalRecord(medicalrecord);
         billRepository.save(medicalBill);
     }
@@ -61,6 +69,7 @@ public class BillService {
         billRepository.findById(request.getId())
                 .ifPresentOrElse(medicalBill -> {
                     medicalBill.setTotal(request.getTotal());
+                    medicalBill.setService(request.getService());
                     if(medicalBill.getMedicalRecord().getId()!= request.getRecordId()){
                         var medicalRecord = recordRepository.findById(request.getRecordId())
                                 .orElseThrow((() -> new BadRequestException(ErrorCode.INVALID_ID)));

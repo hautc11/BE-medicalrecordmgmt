@@ -21,10 +21,12 @@ public class BillResponseAsPage {
                     var medicalResponse = new RecordResponse();
                     medicalResponse.setId(medicalBill.getMedicalRecord().getId());
                     medicalResponse.setFullName(medicalBill.getMedicalRecord().getFullName());
+                    medicalResponse.setPhoneNumber(medicalBill.getMedicalRecord().getPhoneNumber());
 
                     var response = new BillResponse();
                     response.setId(medicalBill.getId());
                     response.setTotal(medicalBill.getTotal());
+                    response.setService(medicalBill.getService());
                     response.setCreateAt(medicalBill.getCreatedAt());
                     response.setRecordResponse(medicalResponse);
                     return response;

@@ -20,9 +20,10 @@ public class DoctorController {
 
     @GetMapping("/doctors")
     public DoctorResponseAsPage getAll(
+            @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size){
-        return doctorService.getAll(page,size);
+        return doctorService.getAll(page,size,search);
     }
 
     @PostMapping("/doctors")
