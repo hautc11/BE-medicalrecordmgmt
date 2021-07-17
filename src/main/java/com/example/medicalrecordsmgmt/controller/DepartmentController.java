@@ -24,11 +24,12 @@ public class DepartmentController {
     @GetMapping("/departments")
     public DepartmentResponseAsPage getAll(
 //            @AuthenticationPrincipal AppUser appUser,
+            @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size){
 //        System.out.println(String.format("User %s want to get all Departments.", appUser.getEmail()));
 //        log.info("User `{}` want to get all departments.", appUser.getEmail());
-        return departmentService.getAll(page, size);
+        return departmentService.getAll(page, size, search);
     }
 
     @PostMapping("/departments")
