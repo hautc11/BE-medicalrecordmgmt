@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 public class BillResponse {
     private int id;
     private double total;
+    private double price;
+    private double discount;
     private String service;
     private Timestamp createAt;
     private RecordResponse recordResponse;

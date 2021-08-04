@@ -12,6 +12,7 @@ import com.example.medicalrecordsmgmt.repository.BillRepository;
 import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -34,13 +35,16 @@ public class BillService {
                     response.setTotal(medicalBill.getTotal());
                     response.setCreateAt(medicalBill.getCreatedAt());
                     response.setService(medicalBill.getService());
+                    response.setPrice(medicalBill.getPrice());
+                    response.setDiscount(medicalBill.getDiscount());
+                    response.setTotal(medicalBill.getTotal());
                     response.setRecordResponse(medicalRecord);
                     return response;
                 }).orElseGet(() -> new BillResponse());
     }
 
     public BillResponseAsPage getAll(int page, int size,String search) {
-        var pageable = PageRequest.of(page,size);
+        var pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC,"createdAt"));
         if (StringUtils.hasText(search)){
             var medicalBill = billRepository.searchBill(search,pageable);
             return BillResponseAsPage.of(medicalBill);
@@ -57,26 +61,39 @@ public class BillService {
 
     public void createMedicalBill(BillCreateRequest request) {
         var medicalrecord = recordRepository.findById((request.getRecordId()))
-                .orElseThrow(()-> new BadRequestException(ErrorCode.INVALID_ID));
+                .orElseThrow(()-> new BadRequestException(ErrorCode.INVALID_MEDICAL_RECORD_ID));
         var medicalBill = new MedicalBill();
-        medicalBill.setTotal(request.getTotal());
         medicalBill.setService(request.getService());
         medicalBill.setMedicalRecord(medicalrecord);
+        medicalBill.setPrice(request.getPrice());
+        if (StringUtils.hasText(medicalrecord.getInsuaranceCode())){
+            medicalBill.setDiscount(medicalBill.getPrice()*0.8);
+            medicalBill.setTotal(medicalBill.getPrice()-(medicalBill.getPrice() * 0.8));
+        }else{
+            medicalBill.setDiscount(0);
+            medicalBill.setTotal(medicalBill.getPrice());
+        }
         billRepository.save(medicalBill);
     }
 
     public void updateMedicalBill(BillUpdateRequest request) {
         billRepository.findById(request.getId())
                 .ifPresentOrElse(medicalBill -> {
-                    medicalBill.setTotal(request.getTotal());
+                    medicalBill.setPrice(request.getPrice());
                     medicalBill.setService(request.getService());
                     if(medicalBill.getMedicalRecord().getId()!= request.getRecordId()){
                         var medicalRecord = recordRepository.findById(request.getRecordId())
-                                .orElseThrow((() -> new BadRequestException(ErrorCode.INVALID_ID)));
-
+                                .orElseThrow((() -> new BadRequestException(ErrorCode.INVALID_MEDICAL_RECORD_ID)));
                         medicalBill.setMedicalRecord(medicalRecord);
                     }
+                    if(StringUtils.hasText(medicalBill.getMedicalRecord().getInsuaranceCode())){
+                        medicalBill.setDiscount(medicalBill.getPrice()*0.8);
+                        medicalBill.setTotal(medicalBill.getPrice()-(medicalBill.getPrice() * 0.8));
+                    }else{
+                        medicalBill.setDiscount(0);
+                        medicalBill.setTotal(medicalBill.getPrice());
+                    }
                     billRepository.save(medicalBill);
-                }, () -> {throw new BadRequestException(ErrorCode.INVALID_DOCTOR_ID);});
+                }, () -> {throw new BadRequestException(ErrorCode.INVALID_ID);});
     }
 }

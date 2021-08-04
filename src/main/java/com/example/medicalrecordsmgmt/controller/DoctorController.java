@@ -22,7 +22,7 @@ public class DoctorController {
     public DoctorResponseAsPage getAll(
             @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
+            @RequestParam(defaultValue = "9") int size){
         return doctorService.getAll(page,size,search);
     }
 

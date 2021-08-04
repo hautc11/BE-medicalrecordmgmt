@@ -12,6 +12,7 @@ import com.example.medicalrecordsmgmt.repository.PrescriptionRepository;
 import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -49,7 +50,7 @@ public class PrescriptionService {
     }
 
     public PrescriptionResponseAsPage getAll(int page, int size, int search) {
-        var pageable = PageRequest.of(page,size);
+        var pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.DESC,"createdAt"));
         if (search!=0){
             var prescriptionPage = prescriptionRepository.searchPrescription(search,pageable);
             return PrescriptionResponseAsPage.of(prescriptionPage);
@@ -87,7 +88,7 @@ public class PrescriptionService {
                         prescription.setMedicine(medicine);
                     }
                     prescriptionRepository.save(prescription);
-                },() -> {throw new BadRequestException(ErrorCode.INVALID_DOCTOR_ID);}
+                },() -> {throw new BadRequestException(ErrorCode.INVALID_ID);}
         );
     }
 

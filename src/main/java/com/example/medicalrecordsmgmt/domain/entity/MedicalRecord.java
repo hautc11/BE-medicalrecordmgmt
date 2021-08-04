@@ -29,6 +29,8 @@ public class MedicalRecord {
 
     private String phoneNumber;
 
+    private String insuaranceCode;
+
     @Column(columnDefinition="TIMESTAMP NOT NULL DEFAULT NOW()", updatable = false, insertable = false)
     private Timestamp createdAt;
 

@@ -3,6 +3,7 @@ package com.example.medicalrecordsmgmt.domain.response;
 import com.example.medicalrecordsmgmt.domain.entity.MedicalBill;
 import lombok.Data;
 import org.springframework.data.domain.Page;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +26,10 @@ public class BillResponseAsPage {
 
                     var response = new BillResponse();
                     response.setId(medicalBill.getId());
-                    response.setTotal(medicalBill.getTotal());
                     response.setService(medicalBill.getService());
+                    response.setPrice(medicalBill.getPrice());
+                    response.setDiscount(medicalBill.getDiscount());
+                    response.setTotal(medicalBill.getTotal());
                     response.setCreateAt(medicalBill.getCreatedAt());
                     response.setRecordResponse(medicalResponse);
                     return response;

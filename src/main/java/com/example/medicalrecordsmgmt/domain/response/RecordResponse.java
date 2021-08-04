@@ -13,6 +13,7 @@ public class RecordResponse {
     private Byte sex;
     private String address;
     private String phoneNumber;
+    private String insuaranceCode;
     private Timestamp createAt;
     private Timestamp expirationDate;
 }

@@ -12,6 +12,7 @@ import com.example.medicalrecordsmgmt.repository.DoctorRepository;
 import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -45,7 +46,7 @@ public class CheckUpFormService {
     }
 
     public CheckUpFormResponseAsPage getAll(int page, int size, String search) {
-        var pageable = PageRequest.of(page, size);
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdAt"));
         if (StringUtils.hasText(search)){
             var checkUpFormPage = checkUpFormRepository.searchCheckUpForm(search,pageable);
             return CheckUpFormResponseAsPage.of(checkUpFormPage);

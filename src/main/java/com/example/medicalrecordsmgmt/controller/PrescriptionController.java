@@ -25,7 +25,7 @@ public class PrescriptionController {
     public PrescriptionResponseAsPage getAll(
             @RequestParam(defaultValue = "0") int search,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
+            @RequestParam(defaultValue = "9") int size){
         return prescriptionService.getAll(page,size,search);
     }
     @PostMapping("/prescriptions")

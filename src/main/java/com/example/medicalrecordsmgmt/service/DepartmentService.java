@@ -8,6 +8,7 @@ import com.example.medicalrecordsmgmt.domain.response.DepartmentResponseAsPage;
 import com.example.medicalrecordsmgmt.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -35,7 +36,7 @@ public class DepartmentService {
     }
 
     public DepartmentResponseAsPage getAll(int page, int size, String search) {
-        var pageable = PageRequest.of(page, size);
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdAt"));
         if (StringUtils.hasText(search)){
             var departmentPage = departmentRepository.searchDepartment(search,pageable);
             return DepartmentResponseAsPage.of(departmentPage);

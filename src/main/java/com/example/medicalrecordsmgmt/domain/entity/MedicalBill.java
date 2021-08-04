@@ -16,6 +16,10 @@ public class MedicalBill {
     @Id
     private int id;
 
+    private double price;
+
+    private double discount;
+
     private double total;
 
     private String service;

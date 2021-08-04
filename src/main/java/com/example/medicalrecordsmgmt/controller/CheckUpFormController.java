@@ -23,7 +23,7 @@ public class CheckUpFormController {
     public CheckUpFormResponseAsPage getAll(
             @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
+            @RequestParam(defaultValue = "9") int size){
         return checkUpFormService.getAll(page, size, search);
     }
 

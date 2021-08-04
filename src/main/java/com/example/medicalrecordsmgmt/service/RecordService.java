@@ -8,6 +8,7 @@ import com.example.medicalrecordsmgmt.domain.response.RecordResponseAsPage;
 import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -27,6 +28,7 @@ public class RecordService {
                     response.setSex(medicalRecord.getSex());
                     response.setAddress(medicalRecord.getAddress());
                     response.setPhoneNumber(medicalRecord.getPhoneNumber());
+                    response.setInsuaranceCode(medicalRecord.getInsuaranceCode());
                     response.setCreateAt(medicalRecord.getCreatedAt());
                     response.setExpirationDate(medicalRecord.getExpirationDate());
                     return response;
@@ -34,7 +36,7 @@ public class RecordService {
     }
 
     public RecordResponseAsPage getAll(int page, int size, String search) {
-        var pageable = PageRequest.of(page, size);
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdAt"));
         if (StringUtils.hasText(search)){
             var medicalRecordPage = recordRepository.searchMedicalRecord(search, pageable);
             return RecordResponseAsPage.of(medicalRecordPage);
@@ -51,6 +53,7 @@ public class RecordService {
         medicalRecord.setSex(request.getSex());
         medicalRecord.setAddress(request.getAddress());
         medicalRecord.setPhoneNumber(request.getPhoneNumber());
+        medicalRecord.setInsuaranceCode(request.getInsuaranceCode());
         recordRepository.save(medicalRecord);
     }
 
@@ -62,6 +65,7 @@ public class RecordService {
                     medicalRecord.setSex(request.getSex());
                     medicalRecord.setAddress(request.getAddress());
                     medicalRecord.setPhoneNumber(request.getPhoneNumber());
+                    medicalRecord.setInsuaranceCode(request.getInsuaranceCode());
                     recordRepository.save(medicalRecord);
                 });
     }

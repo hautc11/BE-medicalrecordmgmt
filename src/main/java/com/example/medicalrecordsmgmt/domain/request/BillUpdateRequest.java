@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class BillUpdateRequest {
     private int id;
-    private double total;
+    private double price;
     private String service;
     private int recordId;
 }

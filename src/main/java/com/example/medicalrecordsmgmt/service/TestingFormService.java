@@ -14,6 +14,7 @@ import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import com.example.medicalrecordsmgmt.repository.TestingFormRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -43,7 +44,7 @@ public class TestingFormService {
     }
 
     public TestingFormResponseAsPage getAll(int page, int size,String search) {
-        var pageable = PageRequest.of(page,size);
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdAt"));
         if (StringUtils.hasText(search)){
             var testingFormPage = testingFormRepository.searchTestingForm(search,pageable);
             return TestingFormResponseAsPage.of(testingFormPage);
@@ -54,7 +55,7 @@ public class TestingFormService {
 
     public void createTestingForm(TestingFormCreateRequest request) {
         var medicalrecord = recordRepository.findById((request.getRecordId()))
-                .orElseThrow(()-> new BadRequestException(ErrorCode.INVALID_ID));
+                .orElseThrow(()-> new BadRequestException(ErrorCode.INVALID_MEDICAL_RECORD_ID));
         var testingForm = new TestingForm();
         testingForm.setTestName(request.getTestName());
         testingForm.setTestDate(request.getTestDate());
@@ -71,7 +72,7 @@ public class TestingFormService {
                     testingForm.setResult(request.getResult());
                     if (testingForm.getMedicalRecord().getId()!= request.getRecordId()){
                         var medicalRecord = recordRepository.findById(request.getRecordId())
-                                .orElseThrow((() -> new BadRequestException(ErrorCode.INVALID_ID)));
+                                .orElseThrow((() -> new BadRequestException(ErrorCode.INVALID_MEDICAL_RECORD_ID)));
                         testingForm.setMedicalRecord(medicalRecord);
                     }
                     testingFormRepository.save(testingForm);

@@ -12,4 +12,5 @@ public class RecordUpdateRequest {
     private Byte sex;
     private String address;
     private String phoneNumber;
+    private String insuaranceCode;
 }

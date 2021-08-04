@@ -22,7 +22,7 @@ public class TestingFormController {
     public TestingFormResponseAsPage getAll(
             @RequestParam(defaultValue = "") String search,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size){
+            @RequestParam(defaultValue = "9") int size){
         return testingFormService.getAll(page,size,search);
     }
 

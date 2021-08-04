@@ -12,4 +12,5 @@ public class RecordCreateRequest {
     private Byte sex;
     private String address;
     private String phoneNumber;
+    private String insuaranceCode;
 }

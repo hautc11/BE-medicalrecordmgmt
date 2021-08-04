@@ -3,6 +3,7 @@ package com.example.medicalrecordsmgmt.domain.response;
 import com.example.medicalrecordsmgmt.domain.entity.MedicalRecord;
 import lombok.Data;
 import org.springframework.data.domain.Page;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,11 @@ public class RecordResponseAsPage {
                     response.setSex(medicalRecord.getSex());
                     response.setAddress(medicalRecord.getAddress());
                     response.setPhoneNumber(medicalRecord.getPhoneNumber());
+                    if (!StringUtils.hasText(medicalRecord.getInsuaranceCode())){
+                        response.setInsuaranceCode("Không có");
+                    }else {
+                        response.setInsuaranceCode(medicalRecord.getInsuaranceCode());
+                    }
                     response.setCreateAt(medicalRecord.getCreatedAt());
                     response.setExpirationDate(medicalRecord.getExpirationDate());
                     return response;

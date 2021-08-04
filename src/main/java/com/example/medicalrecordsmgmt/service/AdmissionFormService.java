@@ -13,6 +13,7 @@ import com.example.medicalrecordsmgmt.repository.AdmissionFormRepository;
 import com.example.medicalrecordsmgmt.repository.RecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -41,7 +42,7 @@ public class AdmissionFormService {
     }
 
     public AdmissionFormResponseAsPage getAll(int page, int size, String search) {
-        var pageable = PageRequest.of(page, size);
+        var pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC,"createdAt"));
         if (StringUtils.hasText(search)){
             var admissionFormPage = admissionFormRepository.searchAdmissionForm(search,pageable);
             return AdmissionFormResponseAsPage.of(admissionFormPage);
@@ -71,7 +72,7 @@ public class AdmissionFormService {
                         admissionForm.setMedicalRecord(medicalRecord);
                     }
                     admissionFormRepository.save(admissionForm);
-                }, ()->{throw new BadRequestException(ErrorCode.INVALID_DOCTOR_ID);});
+                }, ()->{throw new BadRequestException(ErrorCode.INVALID_ID);});
     }
 
     public void deleteAdmissionForm(int id) {
